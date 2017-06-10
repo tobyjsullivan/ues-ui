@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Link, Route } from 'react-router-dom';
+import { Link, Route, Switch } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 import LoginForm from './accounts/LoginForm';
+import EntitiesPage from './entities/EntitiesPage';
+import EventsPage from './entities/EventsPage';
 
 class App extends Component {
   render() {
@@ -12,11 +14,15 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Universal Event Store</h2>
         </div>
-        <Route exact path="/" render={() => (
-          <p><Link to="/login">Log in</Link> | <Link to="/signup">Sign up</Link></p>
-        )} />
-        <Route exact path="/signup" component={LoginForm} />
-        <Route exact path="/login" component={LoginForm} />
+        <Switch>
+          <Route path="/signup" component={LoginForm} />
+          <Route path="/login" component={LoginForm} />
+          <Route path="/entities/:entityId/events" component={EventsPage} />
+          <Route path="/entities" component={EntitiesPage} />
+          <Route render={() => (
+            <p><Link to="/login">Log in</Link> | <Link to="/signup">Sign up</Link></p>
+          )} />
+        </Switch>
       </div>
     );
   }
