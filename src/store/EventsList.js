@@ -1,8 +1,8 @@
 import React from 'react';
 
-import './EventsPage.css';
+import './EventsList.css';
 
-function EventsPage(props) {
+function EventsList(props) {
   const { match } = props;
   const { entityId } = match.params;
 
@@ -31,7 +31,7 @@ function EventsPage(props) {
 
 
   const rows = events.map((event) => (
-    <div className="events-page__event-row">
+    <div className="events-page__event-row" key={event.version}>
       <div className="events-page__event-version">
         {event.version}
       </div>
@@ -54,4 +54,4 @@ function EventsPage(props) {
   );
 }
 
-export default EventsPage;
+export default EventsList;

@@ -3,8 +3,8 @@ import { Link, Route, Switch } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 import LoginForm from './accounts/LoginForm';
-import EntitiesPage from './entities/EntitiesPage';
-import EventsPage from './entities/EventsPage';
+import Dashboard from './account/Dashboard';
+import StorePage from './store/StorePage';
 
 class App extends Component {
   render() {
@@ -17,8 +17,8 @@ class App extends Component {
         <Switch>
           <Route path="/signup" component={LoginForm} />
           <Route path="/login" component={LoginForm} />
-          <Route path="/entities/:entityId/events" component={EventsPage} />
-          <Route path="/entities" component={EntitiesPage} />
+          <Route path="/account" component={Dashboard} />
+          <Route path="/:storeId" component={StorePage} />
           <Route render={() => (
             <p><Link to="/login">Log in</Link> | <Link to="/signup">Sign up</Link></p>
           )} />

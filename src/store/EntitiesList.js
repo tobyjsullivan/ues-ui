@@ -1,9 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import './EntitiesPage.css';
+import './EntitiesList.css';
 
-function EntitiesPage(props) {
+function EntitiesList(props) {
+  const { match } = props;
+  const { storeId } = match.params;
+
   const entities = [
     {
       id: "0f6df22b-6f32-42ff-8131-8710bc87fd96",
@@ -30,7 +33,7 @@ function EntitiesPage(props) {
           {entity.id}
         </div>
         <div className="entities-page__event-count">
-          <Link to={"/entities/"+entity.id+"/events"}>{entity.eventCount} events</Link>
+          <Link to={"/"+storeId+"/entities/"+entity.id+"/events"}>{entity.eventCount} events</Link>
         </div>
       </div>
     );
@@ -47,4 +50,4 @@ function EntitiesPage(props) {
   );
 }
 
-export default EntitiesPage;
+export default EntitiesList;
