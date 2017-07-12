@@ -18,7 +18,7 @@ function StoresList(props) {
 
   return (
     <div>
-      <h1>Your Event Stores</h1>
+      <h1>Your Event Logs</h1>
       {rows}
     </div>
   );

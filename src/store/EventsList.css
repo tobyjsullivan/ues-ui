@@ -6,20 +6,23 @@
 
 .events-page__event-row {
   border-bottom: 1px solid #999;
+  display: flex;
 }
 
 .events-page__event-version {
   display: inline-block;
-  width: 10%;
-}
-
-.events-page__event-type {
-  display: inline-block;
   width: 30%;
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .events-page__event-data {
   display: inline-block;
-  width: 60%;
+  margin-left: 25px;
+  width: 70%;
   text-align: left;
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
