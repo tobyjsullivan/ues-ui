@@ -5,6 +5,7 @@ import './App.css';
 import LoginForm from './accounts/LoginForm';
 import Dashboard from './account/Dashboard';
 import StorePage from './store/StorePage';
+import EventPage from './events/EventPage';
 
 class App extends Component {
   render() {
@@ -18,6 +19,7 @@ class App extends Component {
           <Route path="/signup" component={LoginForm} />
           <Route path="/login" component={LoginForm} />
           <Route path="/account" component={Dashboard} />
+          <Route path="/events/:eventId" component={EventPage} />
           <Route path="/:storeId" component={StorePage} />
           <Route render={() => (
             <p><Link to="/login">Log in</Link> | <Link to="/signup">Sign up</Link></p>

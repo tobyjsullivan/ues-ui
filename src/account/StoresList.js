@@ -7,6 +7,9 @@ function StoresList(props) {
   const stores = [
     {
       id: "my-example-app"
+    },
+    {
+      id: "another-cool-app"
     }
   ];
 

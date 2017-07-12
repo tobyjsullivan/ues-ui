@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import './EventsList.css';
 
@@ -41,9 +42,9 @@ function EventsList(props) {
 
 
   const rows = events.map((event) => (
-    <div className="events-page__event-row" key={event.version}>
+    <div className="events-page__event-row" key={event.eventId}>
       <div className="events-page__event-version">
-        {event.eventId}
+        <Link to={"/events/"+event.eventId}>{event.eventId}</Link>
       </div>
       <div className="events-page__event-data">
         {event.type} {event.data}
