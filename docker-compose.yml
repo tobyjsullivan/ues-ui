@@ -1,0 +1,104 @@
+version: '3'
+services:
+  ues-ui:
+    build: .
+    ports:
+    - "3000:3000"
+    volumes:
+    - .:/web
+    environment:
+    - COMMAND_API_URL=http://localhost:6501
+    - AUTH_API_URL=http://localhost:6504
+    - OAUTH_CLIENT_ID=6C77F4DC179E1575C87F7443EDFCEE6A8C885031CDF1048424DCB4834DF307C5
+    - OAUTH_CALLBACK_URL=http://localhost:4000/callback
+  ues-projection-svc:
+    image: tobyjsullivan/ues-projection-svc:latest
+    ports:
+    - "6502:3000"
+    depends_on:
+    - "event-log"
+    - "event-log-reader"
+    environment:
+    - SERVICE_LOG_ID=fbd8aab2-06ad-4738-84d8-1156adae860e
+    - LOG_WRITER_API=http://event-log:3000/
+    - LOG_READER_API=http://event-log-reader:3000/
+  ues-auth-svc:
+    image: tobyjsullivan/ues-auth-svc:1
+    ports:
+    - "6504:3000"
+    depends_on:
+    - "auth-db"
+    - "event-log-reader"
+    environment:
+    - SERVICE_LOG_ID=fbd8aab2-06ad-4738-84d8-1156adae860e
+    - CLIENT_ID=6C77F4DC179E1575C87F7443EDFCEE6A8C885031CDF1048424DCB4834DF307C5
+    - CLIENT_SECRET=47SPBd3fMkWuip1THEyR+YXoXmoeCrONizPcegToZOrVbIhfwpNIGiaSwiJnixk2vqwSgjR38Dltx5CuuIYa4A==
+    - CLIENT_CALLBACK_URL=http://localhost:4000/callback
+    - LOG_READER_API=http://event-log-reader:3000/
+    - PG_HOSTNAME=auth-db
+    - PG_USERNAME=postgres
+    - PG_PASSWORD=authPass1234
+    - PG_DATABASE=postgres
+  auth-db:
+    image: tobyjsullivan/auth-db:1
+    environment:
+    - POSTGRES_PASSWORD=authPass1234
+    volumes:
+    - ./data/auth-db:/var/lib/postgresql/data
+  ues-command-api:
+    image: tobyjsullivan/ues-command-api:1
+    ports:
+    - "6501:3000"
+    depends_on:
+    - "event-log"
+    - "event-log-reader"
+    environment:
+    - SERVICE_LOG_ID=fbd8aab2-06ad-4738-84d8-1156adae860e
+    - LOG_WRITER_API=http://event-log:3000/
+    - LOG_READER_API=http://event-log-reader:3000/
+  event-log-reader:
+    image: tobyjsullivan/event-log-reader:1
+    depends_on:
+    - "log-db"
+    - "event-reader"
+    - "redis"
+    environment:
+    - EVENT_READER_API=http://event-reader:3000/
+    - PG_HOSTNAME=log-db
+    - PG_USERNAME=postgres
+    - PG_PASSWORD=pass1234
+    - PG_DATABASE=postgres
+    - REDIS_HOSTNAME=redis
+    - REDIS_PORT=6379
+    - REDIS_PASSWORD=
+  redis:
+    image: redis:3.0
+    volumes:
+    - ./data/redis:/data
+  event-log:
+    image: tobyjsullivan/event-log:1
+    depends_on:
+    - "log-db"
+    - "event-store"
+    environment:
+    - EVENT_STORE_API=http://event-store:3000/
+    - PG_HOSTNAME=log-db
+    - PG_USERNAME=postgres
+    - PG_PASSWORD=pass1234
+    - PG_DATABASE=postgres
+  log-db:
+    image: tobyjsullivan/logs-db:1
+    environment:
+    - POSTGRES_PASSWORD=pass1234
+    volumes:
+    - ./data/log-db:/var/lib/postgresql/data
+  event-reader:
+    image: tobyjsullivan/event-reader:3
+    env_file:
+    - ./env/event-reader.env
+  event-store:
+    image: tobyjsullivan/event-store:3
+    env_file:
+    - ./env/event-store.env
+
+
