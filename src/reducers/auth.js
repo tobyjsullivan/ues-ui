@@ -42,14 +42,23 @@ const createAccountError = (state = null, action) => {
   }
 };
 
-const auth = combineReducers({
+const redirectToEmailConfirmation = (state = false, action) => {
+  switch(action.type) {
+    case AUTH_CREATE_ACCOUNT_ACCEPTED:
+      return true;
+    default:
+      return state;
+  }
+};
+
+export default combineReducers({
   isCreatingAccount,
   createAccountFailed,
-  createAccountError
+  createAccountError,
+  redirectToEmailConfirmation
 });
-
-export default auth;
 
 export const getIsCreatingAccount = (state) => state.isCreatingAccount;
 export const getCreateAccountFailed = (state) => state.createAccountFailed;
 export const getCreateAccountError = (state) => state.createAccountError;
+export const getRedirectToEmailConfirmation = (state) => state.redirectToEmailConfirmation;

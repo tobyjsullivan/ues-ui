@@ -4,6 +4,7 @@ import logo from './logo.svg';
 import './App.css';
 import RegistrationForm from './accounts/RegistrationForm';
 import LoginForm from './accounts/LoginForm';
+import ConfirmEmailNotice from './accounts/ConfirmEmailNotice';
 import Dashboard from './dashboard/Dashboard';
 import StorePage from './store/StorePage';
 import EventPage from './events/EventPage';
@@ -12,8 +13,9 @@ class App extends Component {
   render() {
     const content = (
       <Switch>
-        <Route path="/" component={RegistrationForm} />
-        <Route path="/signup" component={LoginForm} />
+        <Route path="/" exact={true} component={RegistrationForm} />
+        <Route path="/confirm-email" component={ConfirmEmailNotice} />
+        <Route path="/login" component={LoginForm} />
         <Route path="/account" component={Dashboard} />
         <Route path="/events/:eventId" component={EventPage} />
         <Route path="/:storeId" component={StorePage} />

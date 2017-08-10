@@ -1,8 +1,14 @@
 import React, {Component} from 'react';
+import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import {createAccount} from '../../actions/auth';
-import {getIsCreatingAccount, getCreateAccountFailed, getCreateAccountError} from '../../reducers';
+import {
+  getIsCreatingAccount,
+  getCreateAccountFailed,
+  getCreateAccountError,
+  getRedirectToEmailConfirmation
+} from '../../reducers';
 
 class RegistrationForm extends Component {
   state = {
@@ -21,6 +27,10 @@ class RegistrationForm extends Component {
   render() {
     if(this.props.isCreatingAccount) {
       return (<p>Creating account...</p>);
+    }
+
+    if(this.props.redirectToEmailConfirmation) {
+      return (<Redirect to="/confirm-email" />);
     }
 
     let errorNotice = null;
@@ -56,15 +66,14 @@ class RegistrationForm extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    isCreatingAccount: getIsCreatingAccount(state),
-    createAccountFailed: getCreateAccountFailed(state),
-    createAccountError: getCreateAccountError(state)
-  };
-};
+const mapStateToProps = state => ({
+  isCreatingAccount: getIsCreatingAccount(state),
+  createAccountFailed: getCreateAccountFailed(state),
+  createAccountError: getCreateAccountError(state),
+  redirectToEmailConfirmation: getRedirectToEmailConfirmation(state)
+});
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   onSignupClicked: (email, password) => dispatch(createAccount(email, password))
 });
 

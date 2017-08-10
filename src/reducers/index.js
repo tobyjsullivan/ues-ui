@@ -9,3 +9,4 @@ export default combineReducers({
 export const getIsCreatingAccount = (state) => fromAuth.getIsCreatingAccount(state.auth);
 export const getCreateAccountFailed = (state) => fromAuth.getCreateAccountFailed(state.auth);
 export const getCreateAccountError = (state) => fromAuth.getCreateAccountError(state.auth);
+export const getRedirectToEmailConfirmation = (state) => fromAuth.getRedirectToEmailConfirmation(state.auth);

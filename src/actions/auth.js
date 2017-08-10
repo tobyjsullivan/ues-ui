@@ -12,10 +12,13 @@ export const createAccountRequested = (email, password) => ({
   }
 });
 
-export function createAccountAccepted() {
+export function createAccountAccepted(email, password) {
   return {
     type: AUTH_CREATE_ACCOUNT_ACCEPTED,
-    payload: {}
+    payload: {
+      email,
+      password
+    }
   };
 }
 
@@ -29,18 +32,20 @@ export function createAccountRejected(error) {
 export const createAccount = (email, password) => (dispatch) => {
   dispatch(createAccountRequested(email, password));
 
-  axios.post('http://localhost:6501/commands/create-account', {
-    email: email,
-    password: password
-  }).then(response => {
-    if(response.code !== 202) {
-      throw new Error(`Unexpected status code: ${response.code}`);
-    }
+  var params = new URLSearchParams();
+  params.append('email', email);
+  params.append('password', password);
 
-    return;
-  }).then(() => {
-    dispatch(createAccountAccepted());
-  }, error => {
-    dispatch(createAccountRejected(error));
-  });
+  axios.post('http://localhost:6501/commands/create-account', params)
+    .then(response => {
+      if(response.status !== 202) {
+        throw new Error(`Unexpected status code: ${response.code}`);
+      }
+
+      return;
+    }).then(() => {
+      dispatch(createAccountAccepted(email, password));
+    }, error => {
+      dispatch(createAccountRejected(error));
+    });
 };

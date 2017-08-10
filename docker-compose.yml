@@ -6,6 +6,10 @@ services:
     - "3000:3000"
     volumes:
     - .:/web
+    depends_on:
+    - "ues-command-api"
+    - "ues-auth-svc"
+    - "ues-projection-svc"
     environment:
     - COMMAND_API_URL=http://localhost:6501
     - AUTH_API_URL=http://localhost:6504
@@ -54,6 +58,7 @@ services:
     - "event-log-reader"
     environment:
     - SERVICE_LOG_ID=fbd8aab2-06ad-4738-84d8-1156adae860e
+    - FRONTEND_URL=http://localhost:3000
     - LOG_WRITER_API=http://event-log:3000/
     - LOG_READER_API=http://event-log-reader:3000/
   event-log-reader:

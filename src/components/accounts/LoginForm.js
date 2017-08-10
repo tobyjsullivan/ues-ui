@@ -6,7 +6,7 @@ const LoginForm = (props) => {
     <div className="LoginForm">
       <p><input type="email" placeholder="email" /></p>
       <p><input type="password" placeholder="password" /></p>
-      <p><Link to="/account"><button>Log In</button></Link></p>
+      <p><Link to="/account"><button>Sign In</button></Link></p>
     </div>
   );
 };
